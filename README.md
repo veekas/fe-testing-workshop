@@ -17,3 +17,4 @@ The repository for the code of the series of blog posts about Frontend testing
   - unit
   - visual
   - CI integration
+- babel-register will transpile code
