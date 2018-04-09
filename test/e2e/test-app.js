@@ -1,9 +1,41 @@
 'use strict'
-const { describe, it } = require('mocha')
+
+const { describe, it, before, after } = require('mocha')
 const { expect } = require('chai')
+const express = require('express')
+const path = require('path')
+const webdriver = require('selenium-webdriver')
+require('chromedriver')
 
 // use function to take advantage of this context because mocha has access
 describe('calculator app', function () {
+  let server
+  before(done => {
+    const app = express()
+    let tape = []
+
+    app.use(express.static(path.join(__dirname, '../../dist')))
+    app.get('/tape', (req, res) => res.json(tape))
+    app.put('/tape', express.json(), (req, res) => {
+      tape = req.body
+      req.setEncoding('')
+    })
+
+    server = app.listen(3000, done)
+  })
+
+  after(done => server.close(done))
+
+  let driver
+
+  before(async () => {
+    driver = await new webdriver.Builder().forBrowser('chrome').build()
+  })
+
+  after(async () => {
+    await driver.quit()
+  })
+
   it('should do calculations correctly', async () => {
     expect(4).to.equal(2)
   })
