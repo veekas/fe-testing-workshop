@@ -5,39 +5,47 @@ const { expect } = require('chai')
 const express = require('express')
 const path = require('path')
 const webdriver = require('selenium-webdriver')
+const { By, until } = webdriver
 require('chromedriver')
 
-// use function to take advantage of this context because mocha has access
 describe('calculator app', function () {
+  let driver
   let server
-  before(done => {
+
+  before((done) => {
     const app = express()
-    let tape = []
-
-    app.use(express.static(path.join(__dirname, '../../dist')))
-    app.get('/tape', (req, res) => res.json(tape))
-    app.put('/tape', express.json(), (req, res) => {
-      tape = req.body
-      req.setEncoding('')
-    })
-
-    server = app.listen(3000, done)
+    app.use('/', express.static(path.resolve(__dirname, '../../dist')))
+    server = app.listen(8080, done)
   })
 
-  after(done => server.close(done))
-
-  let driver
+  after(() => {
+    server.close()
+  })
 
   before(async () => {
-    driver = await new webdriver.Builder().forBrowser('chrome').build()
+    driver = new webdriver.Builder()
+      .forBrowser('chrome')
+      .build()
   })
 
-  after(async () => {
-    await driver.quit()
-  })
+  after(async () => await driver.quit())
 
   it('should do calculations correctly', async () => {
-    expect(4).to.equal(2)
+    await driver.get('http://localhost:8080/')
+    expect(await driver.getTitle()).to.equal('Calculator')
+
+    const digit4Element = await driver.findElement(By.css('.digit-4'))
+    const digit2Element = await driver.findElement(By.css('.digit-2'))
+    const operatorMultiply = await driver.findElement(By.css('.operator-multiply'))
+    const operatorEquals = await driver.findElement(By.css('.operator-equals'))
+
+    await digit4Element.click()
+    await digit2Element.click()
+    await operatorMultiply.click()
+    await digit2Element.click()
+    await operatorEquals.click()
+
+    await driver.wait(until.elementTextIs(await driver.findElement(By.css('.display')), '84'))
   })
 })
 
