@@ -1,40 +1,42 @@
-const {describe, it, before, after} = require('mocha')
-const {expect} = require('chai')
-const {JSDOM} = require('jsdom')
-const React = require('react')
-const e = React.createElement
-const ReactDom = require('react-dom')
-const CalculatorApp = require('../../lib/calculator-app')
 
-describe('calculator app component', function () {
-  before(function () {
-    global.window = new JSDOM(`<!doctype html><html><body><div id="container"/></div></body></html>`).window
-    global.document = window.document
-  })
 
-  after(function () {
-    delete global.window
-    delete global.document
-  })
+// const {describe, it, before, after} = require('mocha')
+// const {expect} = require('chai')
+// const {JSDOM} = require('jsdom')
+// const React = require('react')
+// const e = React.createElement
+// const ReactDom = require('react-dom')
+// const CalculatorApp = require('../../lib/calculator-app')
 
-  it('should work', function () {
-    ReactDom.render(e(CalculatorApp), document.getElementById('container'))
+// describe('calculator app component', function () {
+//   before(function () {
+//     global.window = new JSDOM(`<!doctype html><html><body><div id="container"/></div></body></html>`).window
+//     global.document = window.document
+//   })
 
-    const displayElement = document.querySelector('.display')
+//   after(function () {
+//     delete global.window
+//     delete global.document
+//   })
 
-    expect(displayElement.textContent).to.equal('0')
+//   it('should work', function () {
+//     ReactDom.render(e(CalculatorApp), document.getElementById('container'))
 
-    const digit4Element = document.querySelector('.digit-4')
-    const digit2Element = document.querySelector('.digit-2')
-    const operatorMultiply = document.querySelector('.operator-multiply')
-    const operatorEquals = document.querySelector('.operator-equals')
+//     const displayElement = document.querySelector('.display')
 
-    digit4Element.click()
-    digit2Element.click()
-    operatorMultiply.click()
-    digit2Element.click()
-    operatorEquals.click()
+//     expect(displayElement.textContent).to.equal('0')
 
-    expect(displayElement.textContent).to.equal('84')
-  })
-})
+//     const digit4Element = document.querySelector('.digit-4')
+//     const digit2Element = document.querySelector('.digit-2')
+//     const operatorMultiply = document.querySelector('.operator-multiply')
+//     const operatorEquals = document.querySelector('.operator-equals')
+
+//     digit4Element.click()
+//     digit2Element.click()
+//     operatorMultiply.click()
+//     digit2Element.click()
+//     operatorEquals.click()
+
+//     expect(displayElement.textContent).to.equal('84')
+//   })
+// })
