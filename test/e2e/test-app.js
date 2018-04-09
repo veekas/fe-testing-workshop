@@ -1,4 +1,13 @@
+'use strict'
+const { describe, it } = require('mocha')
+const { expect } = require('chai')
 
+// use function to take advantage of this context because mocha has access
+describe('calculator app', function () {
+  it('should do calculations correctly', async () => {
+    expect(4).to.equal(2)
+  })
+})
 
 // const {describe, it, before, after} = require('mocha')
 // const {Eyes} = require('eyes.selenium')
