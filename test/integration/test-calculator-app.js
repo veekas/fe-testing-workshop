@@ -8,14 +8,17 @@ const CalculatorApp = require('../../lib/calculator-app')
 
 describe('calculator app component', function () {
   before(function () {
+    // look up JSDOM later
     global.window = new JSDOM(`<!doctype html><html><body><div id="container"/></div></body></html>`).window
     global.document = window.document
+    // you can require some things after ^, e.g. jquery
   })
 
   after(function () {
     delete global.window
     delete global.document
   })
+  // ^ this works at this point
 
   it('should work', function () {
     ReactDom.render(e(CalculatorApp), document.getElementById('container'))

@@ -17,4 +17,5 @@ The repository for the code of the series of blog posts about Frontend testing
   - unit
   - visual
   - CI integration
-- babel-register will transpile code
+- babel-register will transpile code in babelrc
+- isomorphic/universal code works in both browser and server
